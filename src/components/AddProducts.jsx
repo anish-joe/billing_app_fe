@@ -127,6 +127,8 @@ const AddProducts = () => {
                                     <option value='Groceries'>Groceries</option>
                                     <option value='Snacks'>Snacks</option>
                                     <option value='Meat'>Meat</option>
+                                    <option value='Jewelery'>Jewelery</option>
+                                    <option value='Electronics'>Electronics</option>
                                     <option value='Other'>Other</option>
                                 </FormSelect>
                             </div>

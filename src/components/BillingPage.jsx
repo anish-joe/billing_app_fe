@@ -46,7 +46,7 @@ const BillingPage = () => {
                 productPrice: ""
             }]);
         } else {
-            alert("Limit reached!!");
+            alert("Stock limit reached!!");
         }
     }
 
@@ -93,7 +93,7 @@ const BillingPage = () => {
                 }
             }));
         } else if (Number(e.target.value) > cpdt.productQuantity) {
-            alert("Quantity limit reached?");
+            alert("Stock max quantity limit reached!");
             setCheckoutProducts(checkoutProducts.map((pdt, index) => {
                 if (index === id) {
                     return { ...cpdt, productPurchaseQty: cpdt.productQuantity };
@@ -128,7 +128,7 @@ const BillingPage = () => {
                         })}></Button>
                         <h6>Date : {dateTime.toLocaleDateString()}</h6>
                     </div>
-                    <img src='https://marhaba.qa/wp-content/uploads/2020/11/logo-lulu-safely.png' style={{ borderRadius: "15px", width: "20vw" }} />
+                    <img src='https://cdn.bitrefill.com/content/cn/b_rgb%3AFFFFFF%2Cc_pad%2Ch_600%2Cw_1200/v1642539487/lulu.webp' style={{ borderRadius: "15px", width: "20vw" }} />
                     <div>
                         <h6 className='mb-4'>Cashier : {cashierDetails.cashierName}</h6>
                         <h6>Time : {timeWithAMPM}</h6>

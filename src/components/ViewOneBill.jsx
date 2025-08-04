@@ -22,7 +22,7 @@ const ViewOneBill = () => {
                     <div className="mb-4 border p-3 rounded bg-light">
                         <div className='d-flex justify-content-between'>
                             <div>
-                                <img src='https://marhaba.qa/wp-content/uploads/2020/11/logo-lulu-safely.png' style={{ borderRadius: "15px", width: "20vw" }} />
+                                <img src='https://cdn.bitrefill.com/content/cn/b_rgb%3AFFFFFF%2Cc_pad%2Ch_600%2Cw_1200/v1642539487/lulu.webp' style={{ borderRadius: "15px", width: "20vw" }} />
                             </div>
                             <div>
                                 <h5 className='d-flex justify-content-between'><span>Customer ID: {bill.customerId}</span> <Button className='bi bi-printer' onClick={() => { window.print() }}></Button></h5>
