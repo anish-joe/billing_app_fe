@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, FormControl, FormSelect, Table } from "react-bootstrap";
 import Service from "./Service";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -38,7 +38,16 @@ const BillingPage = () => {
   }, []);
 
   function handleAddProduct() {
-    if (checkoutProducts.length < products.length) {
+    // Check if there are more products left to select
+    const selectedProductIds = checkoutProducts.map((cpdt) => cpdt.productId);
+    const remainingProducts = products.filter(
+      (pdt) => !selectedProductIds.includes(pdt.productId)
+    );
+
+    if (
+      remainingProducts.length > 0 &&
+      checkoutProducts.length < products.length
+    ) {
       setCheckoutProducts([
         ...checkoutProducts,
         {
@@ -50,7 +59,7 @@ const BillingPage = () => {
         },
       ]);
     } else {
-      alert("Stock limit reached!!");
+      alert("No more products available to add!");
     }
   }
 
@@ -125,7 +134,12 @@ const BillingPage = () => {
     }
   }
 
-  function handleDelete() {}
+  function handleDelete(index) {
+    const updatedCheckoutProducts = checkoutProducts.filter(
+      (cpdt, idx) => idx !== index
+    );
+    setCheckoutProducts(updatedCheckoutProducts);
+  }
 
   return (
     <>
@@ -179,13 +193,25 @@ const BillingPage = () => {
             </thead>
             <tbody>
               {checkoutProducts.map((cpdt, index) => {
+                // Filter the products to exclude those already selected in other dropdowns
+                const selectedProductIds = checkoutProducts
+                  .filter((_, i) => i !== index) // Exclude current product
+                  .map((cpdt) => cpdt.productId);
+
+                const availableProducts = products.filter(
+                  (pdt) => !selectedProductIds.includes(pdt.productId)
+                );
+
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>
-                      <FormSelect onChange={(e) => handleSelectedPdt(e, index)}>
+                      <FormSelect
+                        onChange={(e) => handleSelectedPdt(e, index)}
+                        value={cpdt.productId}
+                      >
                         <option>Choose a product to proceed</option>
-                        {products.map((pdt, indexPdt) => {
+                        {availableProducts.map((pdt, indexPdt) => {
                           if (pdt.productQuantity > 0) {
                             return (
                               <option key={indexPdt} value={pdt.productId}>
@@ -242,7 +268,7 @@ const BillingPage = () => {
                     </td>
                     <td>
                       <Button
-                        onClick={handleDelete}
+                        onClick={() => handleDelete(index)}
                         className="btn btn-danger bi bi-trash"
                       ></Button>
                     </td>
