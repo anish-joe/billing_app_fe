@@ -1,14 +1,14 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import HomePage from './components/HomePage'
-import LoginPage from './components/LoginPage'
-import Header from './components/Header'
-import RegisterPage from './components/RegisterPage'
-import ViewProducts from './components/ViewProducts'
-import EditCashier from './components/EditCashier'
-import AddProducts from './components/AddProducts'
-import BillingPage from './components/BillingPage'
-import ViewBills from './components/ViewBills'
-import ViewOneBill from './components/ViewOneBill'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import LoginPage from "./components/LoginPage";
+import Header from "./components/Header";
+import RegisterPage from "./components/RegisterPage";
+import ViewProducts from "./components/ViewProducts";
+import EditCashier from "./components/EditCashier";
+import AddProducts from "./components/AddProducts";
+import BillingPage from "./components/BillingPage";
+import ViewBills from "./components/ViewBills";
+import ViewOneBill from "./components/ViewOneBill";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
