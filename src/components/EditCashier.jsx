@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -10,13 +10,14 @@ import {
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Service from "./Service";
+import Error from "./Error";
 
 const EditCashier = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const [cashierDetails, setCashierDetails] = useState(
-    location?.state?.cashierDetails
+    location?.state?.cashierDetails,
   );
 
   async function handleSubmit(event) {
@@ -32,7 +33,7 @@ const EditCashier = () => {
   }
 
   return location?.state === null ? (
-    <></>
+    <Error />
   ) : (
     <>
       <Button

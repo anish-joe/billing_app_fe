@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -13,6 +12,8 @@ import {
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Service from "./Service";
+import Error from "./Error";
+import { useState } from "react";
 
 const AddProducts = () => {
   const navigate = useNavigate();
@@ -55,7 +56,9 @@ const AddProducts = () => {
     }
   }
 
-  return (
+  return location?.state === null ? (
+    <Error />
+  ) : (
     <>
       <Button
         className="bi bi-arrow-left"
@@ -74,6 +77,19 @@ const AddProducts = () => {
           </CardHeader>
           <Form onSubmit={addProducts} autoComplete="on">
             <CardBody>
+              <div className="d-flex align-items-center mb-1">
+                <FormLabel style={{ width: "350px" }}>
+                  Product manufacturer name :{" "}
+                </FormLabel>
+                <FormControl
+                  type="text"
+                  required
+                  name="productManufacturer"
+                  placeholder="Enter product manufacturer name"
+                  value={product.productManufacturer}
+                  onChange={handleChange}
+                />
+              </div>
               <div className="d-flex align-items-center mb-1">
                 <FormLabel style={{ width: "350px" }}>
                   Product name :{" "}
@@ -98,19 +114,6 @@ const AddProducts = () => {
                   name="productImage"
                   placeholder="Enter product image"
                   value={product.productImage}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="d-flex align-items-center mb-1">
-                <FormLabel style={{ width: "350px" }}>
-                  Product manufacturer name :{" "}
-                </FormLabel>
-                <FormControl
-                  type="text"
-                  required
-                  name="productManufacturer"
-                  placeholder="Enter product manufacturer name"
-                  value={product.productManufacturer}
                   onChange={handleChange}
                 />
               </div>

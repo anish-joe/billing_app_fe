@@ -1,13 +1,15 @@
-import React from "react";
 import { Button, Card, CardBody, CardHeader } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import Error from "./Error";
 
 const ViewOneBill = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const bill = location?.state?.bill;
 
-  return (
+  return location?.state === null ? (
+    <Error />
+  ) : (
     <div className="m-4">
       <Card>
         <CardHeader className="d-flex align-items-center">

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, CardBody, CardHeader } from "react-bootstrap";
 import Service from "./Service";
 import { useLocation, useNavigate } from "react-router-dom";
+import Error from "./Error";
 
 const ViewBills = () => {
   const [bills, setBills] = useState([]);
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -49,8 +49,9 @@ const ViewBills = () => {
 
     return Object.values(grouped).sort((a, b) => b.customerId - a.customerId);
   };
-
-  return (
+  return location?.state === null ? (
+    <Error />
+  ) : (
     <div className="m-4">
       <Card>
         <CardHeader className="d-flex align-items-center">

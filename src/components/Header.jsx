@@ -1,5 +1,4 @@
-import React from "react";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 
 const Header = () => {
   return (
@@ -7,13 +6,13 @@ const Header = () => {
       <Container>
         <Navbar.Brand className="d-flex">
           <h3>BS</h3>
-          <span> - BillingSuite</span>
+          <Nav.Link href="/"> - BillingSuite</Nav.Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/r">Register</Nav.Link>
             <Nav.Link href="/">Login</Nav.Link>
+            <Nav.Link href="/r">Register</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

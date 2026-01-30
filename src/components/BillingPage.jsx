@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, FormControl, FormSelect, Table } from "react-bootstrap";
 import Service from "./Service";
 import { useLocation, useNavigate } from "react-router-dom";
+import Error from "./Error";
 
 const BillingPage = () => {
   const [dateTime, setDateTime] = useState(new Date());
@@ -11,7 +12,7 @@ const BillingPage = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setDateTime(new Date());
-    }, 1000); // Update every second
+    }, 1000);
 
     return () => clearInterval(timer);
   }, []);
@@ -24,7 +25,7 @@ const BillingPage = () => {
 
   const [products, setProducts] = useState([]);
   const [cashierDetails, setCashierDetails] = useState(
-    location?.state?.cashierDetails
+    location?.state?.cashierDetails,
   );
   const [checkoutProducts, setCheckoutProducts] = useState([]);
 
@@ -38,10 +39,9 @@ const BillingPage = () => {
   }, []);
 
   function handleAddProduct() {
-    // Check if there are more products left to select
     const selectedProductIds = checkoutProducts.map((cpdt) => cpdt.productId);
     const remainingProducts = products.filter(
-      (pdt) => !selectedProductIds.includes(pdt.productId)
+      (pdt) => !selectedProductIds.includes(pdt.productId),
     );
 
     if (
@@ -83,7 +83,7 @@ const BillingPage = () => {
     if (checkoutProducts.length > 0) {
       const response = await Service.generateBill(
         checkoutProducts,
-        cashierDetails.cashierName
+        cashierDetails.cashierName,
       );
       if (response.data === "success") {
         alert("Bill has been generated!!");
@@ -108,7 +108,7 @@ const BillingPage = () => {
           } else {
             return pdt;
           }
-        })
+        }),
       );
     } else if (Number(e.target.value) > cpdt.productQuantity) {
       alert("Stock max quantity limit reached!");
@@ -119,7 +119,7 @@ const BillingPage = () => {
           } else {
             return pdt;
           }
-        })
+        }),
       );
     } else {
       setCheckoutProducts(
@@ -129,161 +129,158 @@ const BillingPage = () => {
           } else {
             return pdt;
           }
-        })
+        }),
       );
     }
   }
 
   function handleDelete(index) {
     const updatedCheckoutProducts = checkoutProducts.filter(
-      (cpdt, idx) => idx !== index
+      (cpdt, idx) => idx !== index,
     );
     setCheckoutProducts(updatedCheckoutProducts);
   }
 
-  return (
-    <>
-      <div className="card m-2">
-        <div className="card-header d-flex justify-content-between align-items-end">
-          <div>
-            <Button
-              className="bi bi-arrow-left mb-3"
-              onClick={() =>
-                navigate("/h", {
-                  state: {
-                    cashierDetails: cashierDetails,
-                  },
-                })
-              }
-            ></Button>
-            <h6>Date : {dateTime.toLocaleDateString()}</h6>
-          </div>
-          <img
-            src="https://cdn.bitrefill.com/content/cn/b_rgb%3AFFFFFF%2Cc_pad%2Ch_600%2Cw_1200/v1642539487/lulu.webp"
-            style={{ borderRadius: "15px", width: "20vw" }}
-          />
-          <div>
-            <h6 className="mb-4">Cashier : {cashierDetails.cashierName}</h6>
-            <h6>Time : {timeWithAMPM}</h6>
-          </div>
+  return location?.state === null ? (
+    <Error />
+  ) : (
+    <div className="card m-2">
+      <div className="card-header d-flex justify-content-between align-items-end">
+        <div>
+          <Button
+            className="bi bi-arrow-left mb-3"
+            onClick={() =>
+              navigate("/h", {
+                state: {
+                  cashierDetails: cashierDetails,
+                },
+              })
+            }
+          ></Button>
+          <h6>Date : {dateTime.toLocaleDateString()}</h6>
         </div>
-        <div className="card-body">
-          <div className="d-flex d-flex justify-content-between align-items-center">
-            <h2>Products</h2>
-            <h5>
-              Add new product{" "}
-              <Button
-                variant="info"
-                className="bi bi-plus-lg"
-                onClick={handleAddProduct}
-              ></Button>
-            </h5>
-          </div>
-          <Table striped bordered hover responsive>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th style={{ width: "240px" }}>Manufacturer</th>
-                <th style={{ width: "140px" }}>Price per item</th>
-                <th style={{ width: "140px" }}>Quantity</th>
-                <th style={{ width: "140px" }}>Price</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {checkoutProducts.map((cpdt, index) => {
-                // Filter the products to exclude those already selected in other dropdowns
-                const selectedProductIds = checkoutProducts
-                  .filter((_, i) => i !== index) // Exclude current product
-                  .map((cpdt) => cpdt.productId);
-
-                const availableProducts = products.filter(
-                  (pdt) => !selectedProductIds.includes(pdt.productId)
-                );
-
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>
-                      <FormSelect
-                        onChange={(e) => handleSelectedPdt(e, index)}
-                        value={cpdt.productId}
-                      >
-                        <option>Choose a product to proceed</option>
-                        {availableProducts.map((pdt, indexPdt) => {
-                          if (pdt.productQuantity > 0) {
-                            return (
-                              <option key={indexPdt} value={pdt.productId}>
-                                {pdt.productName}
-                              </option>
-                            );
-                          } else {
-                            return (
-                              <option
-                                key={indexPdt}
-                                disabled
-                                value={pdt.productId}
-                              >
-                                {pdt.productName}
-                                {" : Stock Unavailable - Restocking Soon!"}
-                              </option>
-                            );
-                          }
-                        })}
-                      </FormSelect>
-                    </td>
-                    <td>
-                      <FormControl
-                        value={cpdt.productManufacturer}
-                        readOnly
-                        placeholder="Choose a product to continue"
-                      />
-                    </td>
-                    <td>
-                      <FormControl
-                        value={"₹" + cpdt.productPrice + "/-"}
-                        readOnly
-                        placeholder="Choose a product to continue"
-                      />
-                    </td>
-                    <td>
-                      <FormControl
-                        value={cpdt.productPurchaseQty}
-                        onChange={(e) => handleChangeQuantity(e, index, cpdt)}
-                        type="number"
-                        placeholder="Choose a product to continue"
-                      />
-                    </td>
-                    <td>
-                      <FormControl
-                        value={
-                          "₹" +
-                          cpdt.productPrice * cpdt.productPurchaseQty +
-                          "/-"
-                        }
-                        readOnly
-                        placeholder="Choose a product to continue"
-                      />
-                    </td>
-                    <td>
-                      <Button
-                        onClick={() => handleDelete(index)}
-                        className="btn btn-danger bi bi-trash"
-                      ></Button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </Table>
-          <Button onClick={handleGenerateBill} className="bi-cash">
-            {" "}
-            <span className="bi-receipt"> </span>Generate Bill
-          </Button>
+        <img
+          src="https://cdn.bitrefill.com/content/cn/b_rgb%3AFFFFFF%2Cc_pad%2Ch_600%2Cw_1200/v1642539487/lulu.webp"
+          style={{ borderRadius: "15px", width: "20vw" }}
+        />
+        <div>
+          <h6 className="mb-4">Cashier : {cashierDetails.cashierName}</h6>
+          <h6>Time : {timeWithAMPM}</h6>
         </div>
       </div>
-    </>
+      <div className="card-body">
+        <div className="d-flex d-flex justify-content-between align-items-center">
+          <h2>Products</h2>
+          <h5>
+            Add new product{" "}
+            <Button
+              variant="info"
+              className="bi bi-plus-lg"
+              onClick={handleAddProduct}
+            ></Button>
+          </h5>
+        </div>
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th style={{ width: "240px" }}>Manufacturer</th>
+              <th style={{ width: "140px" }}>Price per item</th>
+              <th style={{ width: "140px" }}>Quantity</th>
+              <th style={{ width: "140px" }}>Price</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {checkoutProducts.map((cpdt, index) => {
+              const selectedProductIds = checkoutProducts
+                .filter((_, i) => i !== index)
+                .map((cpdt) => cpdt.productId);
+
+              const availableProducts = products.filter(
+                (pdt) => !selectedProductIds.includes(pdt.productId),
+              );
+
+              return (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <FormSelect
+                      onChange={(e) => handleSelectedPdt(e, index)}
+                      value={cpdt.productId}
+                    >
+                      <option>Choose a product to proceed</option>
+                      {availableProducts.map((pdt, indexPdt) => {
+                        if (pdt.productQuantity > 0) {
+                          return (
+                            <option key={indexPdt} value={pdt.productId}>
+                              {pdt.productName}
+                            </option>
+                          );
+                        } else {
+                          return (
+                            <option
+                              key={indexPdt}
+                              disabled
+                              value={pdt.productId}
+                            >
+                              {pdt.productName}
+                              {" : Stock Unavailable - Restocking Soon!"}
+                            </option>
+                          );
+                        }
+                      })}
+                    </FormSelect>
+                  </td>
+                  <td>
+                    <FormControl
+                      value={cpdt.productManufacturer}
+                      readOnly
+                      placeholder="Choose a product to continue"
+                    />
+                  </td>
+                  <td>
+                    <FormControl
+                      value={"₹" + cpdt.productPrice + "/-"}
+                      readOnly
+                      placeholder="Choose a product to continue"
+                    />
+                  </td>
+                  <td>
+                    <FormControl
+                      value={cpdt.productPurchaseQty}
+                      onChange={(e) => handleChangeQuantity(e, index, cpdt)}
+                      type="number"
+                      placeholder="Choose a product to continue"
+                    />
+                  </td>
+                  <td>
+                    <FormControl
+                      value={
+                        "₹" + cpdt.productPrice * cpdt.productPurchaseQty + "/-"
+                      }
+                      readOnly
+                      placeholder="Choose a product to continue"
+                    />
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() => handleDelete(index)}
+                      className="btn btn-danger bi bi-trash"
+                    ></Button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+        <Button onClick={handleGenerateBill} className="bi-cash">
+          {" "}
+          <span className="bi-receipt"> </span>Generate Bill
+        </Button>
+      </div>
+    </div>
   );
 };
 

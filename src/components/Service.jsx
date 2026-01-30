@@ -9,7 +9,7 @@ class Service {
         "cashier/l?cashierEmail=" +
         cashierModel.cashierEmail +
         "&cashierPassword=" +
-        cashierModel.cashierPassword
+        cashierModel.cashierPassword,
     );
   }
 

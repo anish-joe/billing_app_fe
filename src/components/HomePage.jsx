@@ -1,12 +1,12 @@
-import React from "react";
 import { Button, Container } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Error from "./Error";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   return location?.state === null ? (
-    <></>
+    <Error />
   ) : (
     <div className="container">
       <div className="d-flex align-items-center justify-content-between mt-5">
@@ -40,7 +40,7 @@ const HomePage = () => {
             })
           }
         >
-          Add Products
+          + Add Products
         </Button>
         <Button
           className="btn btn-primary"

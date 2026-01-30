@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -11,12 +11,13 @@ import {
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import Service from "./Service";
+import Error from "./Error";
 
 const ViewProducts = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState({}); // this is the single selected product to be edited
+  const [product, setProduct] = useState({});
 
   async function viewProducts() {
     const response = await Service.viewProducts();
@@ -73,7 +74,9 @@ const ViewProducts = () => {
     viewProducts();
   }
 
-  return (
+  return location?.state === null ? (
+    <Error />
+  ) : (
     <>
       <Card>
         <CardHeader className="d-flex align-items-center">

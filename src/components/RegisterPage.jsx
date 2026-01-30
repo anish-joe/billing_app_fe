@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -27,8 +27,11 @@ const RegisterPage = () => {
   }
 
   return (
-    <div className="container w-50 mt-5 pt-5">
-      <Card>
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{ height: "90vh" }}
+    >
+      <Card className="w-50">
         <CardHeader>
           <h1>Register Page</h1>
         </CardHeader>
@@ -58,7 +61,7 @@ const RegisterPage = () => {
                 });
               }}
               required
-              placeholder="Enter your email something@example.com"
+              placeholder="Enter your email example : something@example.com"
             />
             <FormControl
               type="password"
