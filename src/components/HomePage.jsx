@@ -8,14 +8,24 @@ const HomePage = () => {
   return location?.state === null ? (
     <Error />
   ) : (
-    <div className="container">
-      <div className="d-flex align-items-center justify-content-between mt-5">
-        <h2>
-          Hi {location?.state?.cashierDetails?.cashierName}, Welcome to the
-          BillingSuite
-        </h2>
+    <div className="container mt-5 pt-5">
+      <div className="d-flex align-items-center justify-content-between">
+        <div>
+          <h2>
+            Hi{" "}
+            <u className="text-primary">
+              {location?.state?.cashierDetails?.cashierName}
+            </u>
+            , Welcome to the <span className="text-success">Billing</span>
+            <span className="text-warning">Suite</span>
+          </h2>
+          <p>
+            Let's go through the options you have in this application. Below are
+            the mentioned options.
+          </p>
+        </div>
         <Button
-          className="bi bi-person-circle"
+          className="btn-lg bi bi-person-circle btn-secondary"
           onClick={() =>
             navigate("/e", {
               state: {
@@ -23,15 +33,17 @@ const HomePage = () => {
               },
             })
           }
-          style={{ borderRadius: "50%" }}
-        ></Button>
+        >
+          {" "}
+          View & Edit Profile
+        </Button>
       </div>
       <Container
         style={{ height: "65vh" }}
         className="d-flex align-items-center justify-content-between"
       >
         <Button
-          className="btn btn-success"
+          className="btn btn-lg btn-success bi-database-add"
           onClick={() =>
             navigate("/a", {
               state: {
@@ -40,10 +52,11 @@ const HomePage = () => {
             })
           }
         >
-          + Add Products
+          {" "}
+          Add Products
         </Button>
         <Button
-          className="btn btn-primary"
+          className="btn btn-lg btn-primary bi-pencil-square"
           onClick={() =>
             navigate("/v", {
               state: {
@@ -52,10 +65,11 @@ const HomePage = () => {
             })
           }
         >
+          {" "}
           View/Edit Products
         </Button>
         <Button
-          className="btn btn-info"
+          className="btn btn-lg btn-info bi-receipt"
           onClick={() =>
             navigate("/b", {
               state: {
@@ -64,10 +78,11 @@ const HomePage = () => {
             })
           }
         >
+          {" "}
           Billing
         </Button>
         <Button
-          className="btn btn-warning"
+          className="btn btn-lg btn-warning bi-list-ol"
           onClick={() =>
             navigate("/vb", {
               state: {
@@ -76,9 +91,11 @@ const HomePage = () => {
             })
           }
         >
+          {" "}
           View Bills
         </Button>
-        <Link className="btn btn-danger" to="/">
+        <Link className="btn btn-lg btn-danger bi-box-arrow-left" to="/">
+          {" "}
           Logout
         </Link>
       </Container>

@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Container,
   Form,
   FormControl,
 } from "react-bootstrap";
@@ -36,19 +37,22 @@ const EditCashier = () => {
     <Error />
   ) : (
     <>
-      <Button
-        className="bi bi-arrow-left"
-        onClick={() =>
-          navigate("/h", {
-            state: {
-              cashierDetails: cashierDetails,
-            },
-          })
-        }
-      ></Button>
-      <div className="container w-50 mt-5 pt-5">
-        <Card>
-          <CardHeader>
+      <Container
+        className="w-50 d-flex justify-content-center align-items-center"
+        style={{ height: "90vh" }}
+      >
+        <Card className="w-100">
+          <CardHeader className="d-flex align-items-center">
+            <Button
+              className="bi bi-arrow-left me-2"
+              onClick={() =>
+                navigate("/h", {
+                  state: {
+                    cashierDetails: cashierDetails,
+                  },
+                })
+              }
+            ></Button>
             <h1>
               Hi {location?.state?.cashierDetails?.cashierName}, Update your
               details here
@@ -105,7 +109,7 @@ const EditCashier = () => {
             </CardFooter>
           </Form>
         </Card>
-      </div>
+      </Container>
     </>
   );
 };

@@ -60,19 +60,22 @@ const AddProducts = () => {
     <Error />
   ) : (
     <>
-      <Button
-        className="bi bi-arrow-left"
-        onClick={() =>
-          navigate("/h", {
-            state: {
-              cashierDetails: location?.state?.cashierDetails,
-            },
-          })
-        }
-      ></Button>
-      <Container className="mt-5">
-        <Card>
-          <CardHeader>
+      <Container
+        className="w-75 d-flex justify-content-center align-items-center"
+        style={{ height: "90vh" }}
+      >
+        <Card className="w-100">
+          <CardHeader className="d-flex align-items-center">
+            <Button
+              className="bi bi-arrow-left me-2"
+              onClick={() =>
+                navigate("/h", {
+                  state: {
+                    cashierDetails: location?.state?.cashierDetails,
+                  },
+                })
+              }
+            ></Button>
             <h1>Add Products Here</h1>
           </CardHeader>
           <Form onSubmit={addProducts} autoComplete="on">
@@ -88,6 +91,7 @@ const AddProducts = () => {
                   placeholder="Enter product manufacturer name"
                   value={product.productManufacturer}
                   onChange={handleChange}
+                  autoFocus
                 />
               </div>
               <div className="d-flex align-items-center mb-1">
@@ -101,7 +105,6 @@ const AddProducts = () => {
                   placeholder="Enter product name"
                   value={product.productName}
                   onChange={handleChange}
-                  autoFocus
                 />
               </div>
               <div className="d-flex align-items-center mb-1">

@@ -6,7 +6,11 @@ const Header = () => {
       <Container>
         <Navbar.Brand className="d-flex">
           <h3>BS</h3>
-          <Nav.Link href="/"> - BillingSuite</Nav.Link>
+          <Nav.Link href="/">
+            {" "}
+            - <span className="text-success">Billing</span>
+            <span className="text-warning">Suite</span>
+          </Nav.Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
