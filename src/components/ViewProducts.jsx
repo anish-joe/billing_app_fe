@@ -78,7 +78,7 @@ const ViewProducts = () => {
     <Error />
   ) : (
     <>
-      <Card>
+      <Card className="m-1">
         <CardHeader className="d-flex align-items-center">
           <Button
             className="bi bi-arrow-left me-2"

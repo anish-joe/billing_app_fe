@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, FormControl, FormSelect, Table } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  FormControl,
+  FormSelect,
+  Table,
+} from "react-bootstrap";
 import Service from "./Service";
 import { useLocation, useNavigate } from "react-router-dom";
 import Error from "./Error";
@@ -144,11 +152,11 @@ const BillingPage = () => {
   return location?.state === null ? (
     <Error />
   ) : (
-    <div className="card m-2">
-      <div className="card-header d-flex justify-content-between align-items-end">
-        <div>
+    <Card className="m-1">
+      <CardHeader className="d-flex justify-content-between">
+        <div className="d-flex flex-column justify-content-between align-items-start">
           <Button
-            className="bi bi-arrow-left mb-3"
+            className="bi bi-arrow-left"
             onClick={() =>
               navigate("/h", {
                 state: {
@@ -157,18 +165,18 @@ const BillingPage = () => {
               })
             }
           ></Button>
-          <h6 className="mt-5 pt-5">Date : {dateTime.toLocaleDateString()}</h6>
+          <h6>Date : {dateTime.toLocaleDateString()}</h6>
         </div>
         <img
           src="https://cdn.bitrefill.com/content/cn/b_rgb%3AFFFFFF%2Cc_pad%2Ch_600%2Cw_1200/v1642539487/lulu.webp"
           style={{ borderRadius: "15px", width: "20vw" }}
         />
-        <div>
+        <div className="d-flex flex-column justify-content-between">
           <h6>Cashier : {cashierDetails.cashierName}</h6>
           <h6>Time : {timeWithAMPM}</h6>
         </div>
-      </div>
-      <div className="card-body">
+      </CardHeader>
+      <CardBody>
         <div className="d-flex d-flex justify-content-between align-items-center">
           <h2>Products</h2>
           <h5>
@@ -184,11 +192,11 @@ const BillingPage = () => {
           <thead>
             <tr>
               <th>#</th>
+              <th>Manufacturer</th>
               <th>Name</th>
-              <th style={{ width: "240px" }}>Manufacturer</th>
-              <th style={{ width: "140px" }}>Price per item</th>
-              <th style={{ width: "140px" }}>Quantity</th>
-              <th style={{ width: "140px" }}>Price</th>
+              <th>Price per item</th>
+              <th>Quantity</th>
+              <th>Price</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -197,14 +205,19 @@ const BillingPage = () => {
               const selectedProductIds = checkoutProducts
                 .filter((_, i) => i !== index)
                 .map((cpdt) => cpdt.productId);
-
               const availableProducts = products.filter(
                 (pdt) => !selectedProductIds.includes(pdt.productId),
               );
-
               return (
                 <tr key={index}>
                   <td>{index + 1}</td>
+                  <td>
+                    <FormControl
+                      value={cpdt.productManufacturer}
+                      readOnly
+                      placeholder="Choose a product to continue"
+                    />
+                  </td>
                   <td>
                     <FormSelect
                       onChange={(e) => handleSelectedPdt(e, index)}
@@ -232,13 +245,6 @@ const BillingPage = () => {
                         }
                       })}
                     </FormSelect>
-                  </td>
-                  <td>
-                    <FormControl
-                      value={cpdt.productManufacturer}
-                      readOnly
-                      placeholder="Choose a product to continue"
-                    />
                   </td>
                   <td>
                     <FormControl
@@ -279,8 +285,8 @@ const BillingPage = () => {
           {" "}
           <span className="bi-receipt"> </span>Generate Bill
         </Button>
-      </div>
-    </div>
+      </CardBody>
+    </Card>
   );
 };
 
